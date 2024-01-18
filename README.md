@@ -1,3 +1,4 @@
+# Enhancing AI-Generated Content Efficiency through Adaptive Multi-Edge Collaboration
 This code is a implementation of our paper "Enhancing AI-Generated Content Efficiency through Adaptive Multi-Edge Collaboration", submitted to ICDCS 2024.
 The function of our method mainly two stages:
 1) Make the ES selection decision by the proposed adaptive DQN model in the first stage.
@@ -22,3 +23,6 @@ Paramters setting information:
 2) Task arrival probabiltiy setting. User can adjust the variable value of TASK_ARRIVAL_PROB from 0.1 to 1 in main.py.
 3) The number setting of tasks. User can adjust the variable value of NUM_TASK from 10 to 130 in main.py.
 4) The setting of ESs' computing capacities. If user want to achieve the results varying different ESs' computing capacityes, user can adjust the variable value of BS_capacities in main.py and then run the main.py to achieve the experimental results.
+
+# Baselines
+The RandCoEdge and Optimal baselines are easy to implement based on our code.
