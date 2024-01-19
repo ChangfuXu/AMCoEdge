@@ -20,6 +20,7 @@ Some experimental results of each method are stored in the corresponding results
 We implement four baselines (i.e., RandCoEdge, DRLCoEdge, SMCoEdge, and Optimal) in our experiments. The RandCoEdge and Optimal baselines are implemented based on the code of AMCoEdge method. The DRLCoEdge and SMCoEdge baselines are implemented based on the existing methods in [1] and [2] respectively. Note that for fairness, the wokload allocation decisions of all methods are satisfied with the same constraints in the experiment. For example, we add the CWA algorithm into the DRLCoEdge baselines. Some environment parameters in the SMCoEdge code are set with the same of our AMCoEdge method. The soure code of SMCoEdge method is released at https://github.com/ChangfuXu/SMCoEdge. User can open this website to find more information about SMCoEdge method.
 
 [1] M. Li, J. Gao, L. Zhao, and X. Shen, “Deep reinforcement learning for collaborative edge computing in vehicular networks,” IEEE Transactions on Cognitive Communications and Networking, vol. 6, no. 4, pp. 1122–1135, 2020.
+
 [2] C. Xu, Y. Li, X. Chu, H. Zou, W. Jia, and T. Wang, “Smcoedge: Simultaneous multi-server offloading for collaborative mobile edge computing,” in The 23rd International Conference on Algorithms and Architectures for Parallel Processing (ICA3PP). Springer, 2023, pp. 1-18, 2023. 
 
 # Paramters setting
