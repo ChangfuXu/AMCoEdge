@@ -1,6 +1,8 @@
 import numpy as np
 import tensorflow as tf
+from scipy.special import perm, comb
 from itertools import combinations
+
 
 class DeepQNetwork:
 
@@ -8,6 +10,7 @@ class DeepQNetwork:
                  n_BSs,  # The number of BSs
                  n_features,  # The number of features in observation state
                  n_time,  # The total number of time slot
+                 n_k,  # The number of selected ESs
                  learning_rate=0.001,  # The learning rate
                  reward_decay=0.9,  # The factor of reward decay
                  e_greedy=0.99,  # The greedy probability
@@ -31,13 +34,14 @@ class DeepQNetwork:
         self.epsilon = 0 if e_greedy_increment is not None else self.epsilon_max
         self.learn_step_counter = 0
         self.N_L1 = N_L1
+        self.k_action = n_k
 
         # The set of action space
-        self.actions_set = np.asfarray([c for c in combinations(range(self.n_actions), 1)])
-        self.q_values_num = len(self.actions_set)  # which is equals to the number of action set
+        self.actions_set = np.asarray([c for c in combinations(range(self.n_actions), self.k_action)])
+        self.q_values_num = len(self.actions_set) # which is equals to the number of action set
 
         # initialize zero memory np.hstack((s, a, [r], s_))
-        self.memory = np.zeros((self.memory_size, self.n_features + 1 + 1 + self.n_features))
+        self.memory = np.zeros((self.memory_size, self.n_features + self.k_action + 1 + self.n_features))
 
         # consist of [target_net, evaluate_net]
         self.build_net()
@@ -107,8 +111,8 @@ class DeepQNetwork:
             self.loss = tf.reduce_mean(tf.squared_difference(self.q_target, self.q_eval))
 
         with tf.variable_scope('train'):
-            # self.train_op = tf.train.GradientDescentOptimizer(self.lr).minimize(self.loss)  # Using Gradient descent
             # self.train_op = tf.train.RMSPropOptimizer(self.lr).minimize(self.loss)  #  using RMSprop
+            # self.train_op = tf.train.GradientDescentOptimizer(self.lr).minimize(self.loss)  # Using Gradient descent
             self.train_op = tf.train.AdamOptimizer(self.lr).minimize(self.loss)  # using Adam
 
         # generate target_net
@@ -155,7 +159,7 @@ class DeepQNetwork:
         if self.learn_step_counter % self.replace_target_iter == 0:
             # run the self.replace_target_op in __int__
             self.sess.run(self.replace_target_net)
-            print('Replaced target_net parameters\n')
+            # print('Replaced target_net parameters\n')
 
         # randomly pick [batch_size] memory from memory np.hstack((s, a, r, s_))
         if self.memory_counter > self.memory_size:
@@ -185,15 +189,20 @@ class DeepQNetwork:
         q_target = q_eval.copy()
         batch_index = np.arange(self.batch_size, dtype=np.int32)
         # Get all actions in batch memory, where each action is vector with binary values
-        eval_act_index = batch_memory[:, self.n_features].astype(int)
+        eval_act_index = batch_memory[:, self.n_features:self.n_features + self.k_action].astype(int)
 
         # Get all reward indexes in batch memory, where each reward is a single value
-        reward = batch_memory[:, self.n_features+1]
+        reward = batch_memory[:, self.n_features + self.k_action]
 
         # update the q_target at the particular batch at the corresponding action
         selected_q_next = np.max(q_next, axis=1)  # Achieve the maximal Q-values
 
-        q_target[batch_index, eval_act_index] = reward + self.gamma * selected_q_next
+        for i in range(self.batch_size):
+            for j in range(self.q_values_num):
+                if (eval_act_index[i] == self.actions_set[j]).all():
+                    q_target[i, j] = reward[i] + self.gamma * selected_q_next[i]
+                    break
+
 
         # both self.s and self.q_target belong to eval_q
         # input self.s and self.q_target, output self.train_op, self.loss (to minimize the gap)
