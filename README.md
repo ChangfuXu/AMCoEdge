@@ -1,5 +1,5 @@
 # Enhancing AI-Generated Content Efficiency through Adaptive Multi-Edge Collaboration
-This code is a implementation of our paper "Enhancing AI-Generated Content Efficiency through Adaptive Multi-Edge Collaboration", submitted to ICDCS 2024.
+This code is a implementation of our paper "Enhancing AI-Generated Content Efficiency through Adaptive Multi-Edge Collaboration", accepted in ICDCS 2024.
 The function of our AMCoEdge method mainly two stages:
 1) Make the ES selection decision by the proposed adaptive DQN model in the first stage.
 2) Make the workload allocation decision by the proposed Closed-form Workload Allocation (CWA) algorithm in the second stage.
@@ -21,7 +21,7 @@ We implement four baselines (i.e., RandCoEdge, DRLCoEdge, SMCoEdge, and Optimal)
 
 [1] M. Li, J. Gao, L. Zhao, and X. Shen, “Deep reinforcement learning for collaborative edge computing in vehicular networks,” IEEE Transactions on Cognitive Communications and Networking, vol. 6, no. 4, pp. 1122–1135, 2020.
 
-[2] C. Xu, Y. Li, X. Chu, H. Zou, W. Jia, and T. Wang, “Smcoedge: Simultaneous multi-server offloading for collaborative mobile edge computing,” in The 23rd International Conference on Algorithms and Architectures for Parallel Processing (ICA3PP). Springer, 2023, pp. 1-18. 
+[2] C. Xu, Y. Li, X. Chu, H. Zou, W. Jia, and T. Wang, “Smcoedge: Simultaneous multi-server offloading for collaborative mobile edge computing,” in The 23rd International Conference on Algorithms and Architectures for Parallel Processing (ICA3PP). Springer, 2023, pp. 1-18. (This paper is also extended to a journal paper that is accepted by IEEE Transactions on Mobile Computing.)
 
 # Paramters setting
 All the parameters in current codes are set by default. Hence, user can ajust the parameters such as task deadline, task arrival probabiltiy, computing capacity, and the number of tasks, and then run the main.py to get more experimental results.
