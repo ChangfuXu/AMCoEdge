@@ -31,3 +31,8 @@ Paramters setting information:
 2) Task arrival probabiltiy setting. User can adjust the variable value (i.e., from 0.1 to 1) of TASK_ARRIVAL_PROB in main.py, thus runing main.py to achieve the corresponding experimental results.
 3) The number setting of tasks. User can adjust the variable value (i.e., from 10 to 100) of NUM_TASK in main.py, thus runing main.py to achieve the corresponding experimental results.
 4) The setting of ESs' computing capacities. If user want to achieve the results varying different ESs' computing capacityes, user can adjust the variable value of BS_capacities in main.py and then run the main.py to achieve the corresponding experimental results.
+
+# Citation
+If our method can be used in your paper, please help cite:
+
+@inproceedings{xu2024enhancing, title={Enhancing AI-Generated Content Efficiency through Adaptive Multi-Edge Collaboration}, author={Xu, Changfu and Guo, Jianxiong and Zeng, Jiandian and Meng, Shengguang and Chu, Xiaowen and Cao, Jiannong and Wang, Tian}, booktitle={The 44th IEEE International Conference on Distributed Computing Systems (ICDCS 2024)}, pages={1--11}, year={2024}, publisher={IEEE}}
