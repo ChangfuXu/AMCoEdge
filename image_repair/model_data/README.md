@@ -1,0 +1,1 @@
+Please download the v1-5-pruned-emaonly.safetensors  in public platforms  and put it here.

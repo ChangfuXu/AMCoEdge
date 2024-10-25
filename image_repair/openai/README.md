@@ -1,0 +1,1 @@
+Please download the whole clip-vit-large-patch14 folder in public platforms and put it here.

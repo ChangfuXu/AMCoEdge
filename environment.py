@@ -2,7 +2,7 @@ import numpy as np
 
 
 class OffloadEnvironment:
-    def __init__(self, num_tasks, num_BSs, num_time, deadline, es_capacities, task_arrivalL_prob):
+    def __init__(self, num_tasks, num_BSs, num_time, deadline, es_capacities, task_arrivalL_prob, alg_type):
         # INPUT DATA
         self.n_tasks = num_tasks  # The number of mobile devices
         self.n_BSs = num_BSs  # The number of base station or edge server
@@ -30,10 +30,11 @@ class OffloadEnvironment:
         # Initialize the array to storage the task offloading failure results. 0: succeed. 1: failure.
         self.is_fail_tasks = np.zeros([self.n_time, self.n_BSs, self.n_tasks])  # failure indicator
         self.n_features = 1 + self.n_BSs
+        self.algorithm_type = alg_type  # Using SE method
 
     # Initialize system environment
     # Return: The state at time slot 0
-    def initialize_env(self, arrival_bits_):
+    def reset_env(self, arrival_bits_):
         # Initial all the arrival task data in the system
         self.arrival_bits = arrival_bits_
         # Initial a maximize service delay for each task
@@ -79,20 +80,28 @@ class OffloadEnvironment:
                     wait_delays[a_btn[i]] = self.tran_delay_bef[t][b] + (self.proc_queue_len[t][a_btn[i]] + self.proc_queue_bef[t][a_btn[i]]) / self.ES_capacities[a_btn[i]]
                     tran_comp_delays[a_btn[i]] = n_bit / self.tran_rate_BSs[a_btn[i]] + n_bit * self.comp_density[n] / self.ES_capacities[a_btn[i]]
 
-            eq_A = np.zeros([action_size, action_size])  # Initialize the left side coefficients of equations
-            eq_b = np.ones([action_size])  # Initialize the right side coefficients of equations
-            for j in range(action_size - 1):
-                eq_A[j][j] = tran_comp_delays[a_btn[j]]
-                eq_A[j][j + 1] = -tran_comp_delays[a_btn[j + 1]]
-                eq_b[j] = wait_delays[a_btn[j + 1]] - wait_delays[a_btn[j]]
+            if self.algorithm_type == 'CWA':  # Using CWA method
+                eq_A = np.zeros([action_size, action_size])  # Initialize the left side coefficients of equations
+                eq_b = np.ones([action_size])  # Initialize the right side coefficients of equations
+                for j in range(action_size - 1):
+                    eq_A[j][j] = tran_comp_delays[a_btn[j]]
+                    eq_A[j][j + 1] = -tran_comp_delays[a_btn[j + 1]]
+                    eq_b[j] = wait_delays[a_btn[j + 1]] - wait_delays[a_btn[j]]
 
-            eq_A[action_size - 1] = np.ones([action_size])
-            # Achieve the allocation fractions by Equations Solving
-            allocation_fractions[a_btn] = np.linalg.solve(eq_A, eq_b)
-            # Here, we should ensure the allocation fractions are greater than 0 by the following operation
-            allocation_fractions[allocation_fractions < 0] = 0
-            # Reset the allocation fractions
-            allocation_fractions[a_btn] = allocation_fractions[a_btn] / np.sum(allocation_fractions[a_btn])
+                eq_A[action_size - 1] = np.ones([action_size])
+                # Achieve the allocation fractions by Equations Solving
+                allocation_fractions[a_btn] = np.linalg.solve(eq_A, eq_b)
+                # Here, we should ensure the allocation fractions are greater than 0 by the following operation
+                allocation_fractions[allocation_fractions < 0] = 0
+                # Reset the allocation fractions
+                allocation_fractions[a_btn] = allocation_fractions[a_btn] / np.sum(allocation_fractions[a_btn])
+            else:  # Using HECWA method
+                for i in range(action_size):
+                    except_i_indexes = np.delete(a_btn, i)  # Get the ES indexes except the current ES index
+                    allocation_fractions[a_btn[i]] = np.prod(tran_comp_delays[except_i_indexes])
+                temp_sum = np.sum(allocation_fractions[a_btn])
+                allocation_fractions[a_btn] = allocation_fractions[a_btn] / temp_sum
+
             # Calculate the service delay of task n, which equals to the longest service delay of subtasks
             self.make_spans[t][b][n] = np.max(allocation_fractions[a_btn] * tran_comp_delays[a_btn] + wait_delays[a_btn])
 

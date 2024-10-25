@@ -4,7 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-def DRL_AMSA_algorithm(DQN_list_, NUM_EPISODE_):
+def online_AMCoEdge_algorithm(DQN_list_, NUM_EPISODE_):
     action_step = 0
     for episode_ in range(NUM_EPISODE_):
         # print('Episode: %d' % episode_)
@@ -12,7 +12,7 @@ def DRL_AMSA_algorithm(DQN_list_, NUM_EPISODE_):
         arrival_tasks = np.random.uniform(env.min_bit, env.max_bit, size=[env.n_time, env.n_BSs, env.n_tasks])
         arrival_tasks = arrival_tasks * (np.random.uniform(0, 1, size=[env.n_time, env.n_BSs, env.n_tasks]) < env.task_arrive_prob)
         # Initialize the system environment
-        env.initialize_env(arrival_tasks)
+        env.reset_env(arrival_tasks)
         # Initialize an array to storage the system state at next time slot t
         state_bnt = np.zeros([env.n_BSs, env.n_tasks, env.n_features])  # State: [D_{n,t},Q_{1,t},..., Q_{B,t}]
 
@@ -39,13 +39,6 @@ def DRL_AMSA_algorithm(DQN_list_, NUM_EPISODE_):
                             # Store transition tuple
                             DQN_list_[b].store_transition(state_bnt[b][n], all_actions[b][n], reward[b][n], next_state_bnt)
 
-                            # Observe the next system state in parallel way
-                            # next_state_bnt = np.hstack(
-                            #     [env.arrival_bits[t + 1][b_index][n_index], env.queue_len[t + 1]])
-                            # # Store transition tuple
-                            # DQN_list_[b_index].store_transition(state_bnt[b_index][n_index],
-                            #                                     all_actions[b_index][n_index],
-                            #                                     reward[b_index][n_index], next_state_bnt)
 
             action_step += 1  # Add action step (one step does not mean one store)
             # Set learning start time as bigger than 200 and frequency with each 10 steps
@@ -58,7 +51,7 @@ def DRL_AMSA_algorithm(DQN_list_, NUM_EPISODE_):
         aver_make_spans[episode_] = np.mean(make_spans)
         all_num_tasks = np.size(make_spans)
         aver_failure_rates[episode_] = np.sum(env.is_fail_tasks) / all_num_tasks
-        #  ======================================== DQN END=================================================
+        #  ======================================== DQN END =================================================
 
 
 if __name__ == "__main__":
@@ -68,7 +61,11 @@ if __name__ == "__main__":
     NUM_TIME_SLOTS = 61  # The number of time slot set
     DEADLINE = 1.0  # The deadline (In seconds) of task processing
     TASK_ARRIVAL_PROB = 0.3  # The task arrival probability
-    ES_capacity = np.array([10, 20, 30, 40, 50])  # The computing capacity of ES
+    # ES_capacity = np.array([10, 15, 20, 25, 30])  # The computing capacity of ES
+    # ES_capacity = np.array([10, 20, 30, 40, 50])  # The computing capacity of ES
+    # ES_capacity = np.array([10, 25, 40, 55, 70])  # The computing capacity of ES
+    ES_capacity = np.array([10, 30, 50, 70, 90])  # The computing capacity of ES
+    ALGORITHM_TYPE = "CWA"  # Set the algorithm type (i.e., CWA or HECWA) for workload allocation
 
     # Initial variables of actions, delays, and failure rate for experimental testing
     all_actions = np.zeros([NUM_BSs, NUM_TASK, NUM_BSs])
@@ -76,7 +73,7 @@ if __name__ == "__main__":
     aver_failure_rates = np.zeros([NUM_EPISODE])
     reward = np.zeros([NUM_BSs, NUM_TASK])
     # Generate offloading environment
-    env = OffloadEnvironment(NUM_TASK, NUM_BSs, NUM_TIME_SLOTS, DEADLINE, ES_capacity, TASK_ARRIVAL_PROB)
+    env = OffloadEnvironment(NUM_TASK, NUM_BSs, NUM_TIME_SLOTS, DEADLINE, ES_capacity, TASK_ARRIVAL_PROB, ALGORITHM_TYPE)
     # Distributed DQN model: Each BS generates an agent class for DRL
     DQN_list = list()
     for i in range(NUM_BSs):
@@ -91,7 +88,7 @@ if __name__ == "__main__":
                                      N_L1=20)
                         )
 
-    DRL_AMSA_algorithm(DQN_list, NUM_EPISODE)
+    online_AMCoEdge_algorithm(DQN_list, NUM_EPISODE)
 
     print('============ Training finished ==========')
 
