@@ -20,7 +20,7 @@ We propose a novel AMCoEdge method that dynamically allocates computing and netw
 <div align=center>
 <img src="results/amcoedge_framework.jpg" width="600px">
 </div>
- When a task arrives at the BS, the scheduler first generates the ES selection decision by EQN model, and then achieves the task workload allocation fraction by CWA or HECWA procedure.
+ When a task arrives at the BS, the scheduler first generates the ES selection decision by AEQN model, and then achieves the task workload allocation fraction by CWA procedure.
 
 ### Convergence Analysis 
 <div align=center>
@@ -61,7 +61,8 @@ Parameters setting information:
 
 ## II. Baselines Implementation
 We implement four baselines (i.e., RandCoEdge, DRLCoEdge, SMCoEdge, and Optimal) in our experiments. 
-The RandCoEdge and Optimal baselines are implemented based on the code of AMCoEdge method. 
+
+The specific code of baselines is stored in the Baseline folder. Here, the RandCoEdge and Optimal baselines are implemented based on the code of AMCoEdge method. 
 The DRLCoEdge and SMCoEdge baselines are implemented based on the existing methods in [2] and [3], respectively. 
 Note that for fairness, the workload allocation decisions of all methods are satisfied with the same constraints in the experiment. 
 For example, we add the CWA algorithm into the DRLCoEdge method. Some environment parameters in the codes of baselines are set with the same of our AMCoEdge method.
