@@ -91,7 +91,7 @@ To run this code, please install key packages according to the original [sd1.5 m
 
 [2] M. Li, J. Gao, L. Zhao, and X. Shen, “Deep reinforcement learning for collaborative edge computing in vehicular networks,” IEEE Transactions on Cognitive Communications and Networking, 2020.
 
-[3] C. Xu, Y. Li, X. Chu, H. Zou, W. Jia, and T. Wang, “Smcoedge: Simultaneous multi-server offloading for collaborative mobile edge computing,” in ICA3PP 2023. (An extended Version has been published on IEE TMC) [Code](https://github.com/ChangfuXu/SMCoEdge)
+[3] C. Xu, Y. Li, X. Chu, H. Zou, W. Jia, and T. Wang, “Smcoedge: Simultaneous multi-server offloading for collaborative mobile edge computing,” in ICA3PP 2023. (An extended version has been published on IEEE TMC) [Code](https://github.com/ChangfuXu/SMCoEdge)
 
 # Citation
 If our method can be used in your paper, please help cite:
