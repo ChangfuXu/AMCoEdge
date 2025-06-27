@@ -1,6 +1,6 @@
 # AMCoEdge Implementation
 This repo is an implementation of our papers "**Enhancing AI-Generated Content Efficiency through Adaptive Multi-Edge Collaboration (published in ICDCS 2024)**" 
-and "**A Distributed System for Enhancing AIGC Service Efficiency with Adaptive Multi-Edge Collaboration (submitted to IEEE TPDS)**". 
+and "**Enhancing AIGC Service Efficiency with Adaptive Multi-Edge Collaboration in A Distributed System (submitted to IEEE TSC)**". 
 We propose AMCoEdge, an adaptive multi-server collaborative MEC approach tailored for heterogeneous edge environments to optimize AIGC service efficiency. 
 In this repo, we implement the proposed AMCoEdge method, Baselines, and Stable Diffusion (SD) model [1] deployment in our papers.
 
