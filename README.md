@@ -1,6 +1,6 @@
 # AMCoEdge Implementation
-This repo is an implementation of our papers "**Enhancing AI-Generated Content Efficiency through Adaptive Multi-Edge Collaboration (published in ICDCS 2024)**" 
-and "**Enhancing AIGC Service Efficiency with Adaptive Multi-Edge Collaboration in A Distributed System (submitted to IEEE TSC)**". 
+This repo is an implementation of our papers "**Enhancing AI-Generated Content Efficiency through Adaptive Multi-Edge Collaboration (Published in ICDCS 2024)**" 
+and "**Enhancing AIGC Service Efficiency with Adaptive Multi-Edge Collaboration in A Distributed System, IEEE Transactions on Services Computing, 2025)**". 
 We propose AMCoEdge, an adaptive multi-server collaborative MEC approach tailored for heterogeneous edge environments to optimize AIGC service efficiency. 
 In this repo, we implement the proposed AMCoEdge method, Baselines, and Stable Diffusion (SD) model [1] deployment in our papers.
 
@@ -96,4 +96,6 @@ To run this code, please install key packages according to the original [sd1.5 m
 # Citation
 If our method can be used in your paper, please help cite:
 
-@inproceedings{xu2024enhancing, title={Enhancing AI-Generated Content Efficiency through Adaptive Multi-Edge Collaboration}, author={Xu, Changfu and Guo, Jianxiong and Zeng, Jiandian and Meng, Shengguang and Chu, Xiaowen and Cao, Jiannong and Wang, Tian}, booktitle={204 IEEE 44th International Conference on Distributed Computing Systems (ICDCS)}, pages={960-970}, year={2024}, publisher={IEEE}}
+@inproceedings{xu2024enhancing, title={Enhancing AI-Generated Content Efficiency through Adaptive Multi-Edge Collaboration}, author={Xu, Changfu and Guo, Jianxiong and Zeng, Jiandian and Meng, Shengguang and Chu, Xiaowen and Cao, Jiannong and Wang, Tian}, booktitle={2024 IEEE 44th International Conference on Distributed Computing Systems (ICDCS)}, pages={960-970}, year={2024}, publisher={IEEE}}
+
+@article{xu2025enhancing, title={Enhancing AIGC Service Efficiency with Adaptive Multi-Edge Collaboration in A Distributed System}, author={Xu, Changfu and Guo, Jianxiong and Zeng, Jiandian and Qiu, Houming and Wang, Tian and Chu, Xiaowen and Cao, Jiannong}, journal={IEEE Transactions on Services Computing}, pages={1-14}, year={2025}, publisher={IEEE}}
